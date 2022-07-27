@@ -14,11 +14,19 @@
 //todo 1 : sey up window load handler
 //todo 2: setup submit handler for the form
 //todo 3: cancel submision using event.preventDefault
+//todo 4: validate that all inputs have data
 
 window.addEventListener("load", function(){
    
    let formNode = document.getElementById("launchForm");
    let launchStatusNode = document.getElementById("launchStatus");
+   let itemStatusNode= document.getElementById("itemStatus");
+   let pilotStatusNode = document.getElementById("pilotStatus");
+   let copilotStatusNode = document.getElementById("copilotStatus");
+   let fuelStatusNode = document.getElementById("fuelStatus");
+   let cargoStatusNode = document.getElementById("cargoStatus");
+   let launchStstusNode = document.getElementById("launchStatius");
+   let IsLaunchReady = false;
    
    formNode.addEventListener("submit", function(event){
       event.preventDefault();
@@ -40,11 +48,6 @@ window.addEventListener("load", function(){
       let cargoCheck = Number(cargo);
 
 
-      // if(pilotNode.value.length === 0 || copilotNode.value.length === 0 || fuelNode.value.length === 0 || cargoNode.value.length === 0 ){  
-      //    event.preventDefault();
-      //    alert("All fields are required!");
-      // }
-
       console.log(isNaN(fuelCheck));
       if(!pilotName || !copilotName || !fuel || !cargo){
          alert("All fields are required!");
@@ -52,11 +55,29 @@ window.addEventListener("load", function(){
          alert("Make sure to enter valid information");
       }
      
-
-      // if((typeof pilotNode.value )!= "string"){
-      //    event.preventDefault();
-      //    alert("Please enter a name");
-      // }
+      itemStatusNode.style.visibility = "visible";
+      pilotStatusNode.innerHTML = `${pilotName}`;
+      copilotStatusNode.innerHTML = `${copilotName}`;
+     
+      if(fuel < 10000){
+         fuelStatusNode.innerHTML = "Not Enough Fuel";
+         IsLaunchReady = false;
+      }else if (cargo > 10000){
+         cargoStatusNode.innerHTML = "Too much cargo mass";
+         IsLaunchReady = false;
+      }else{
+         fuelStatusNode.innerHTML = "Fuel level check passed";
+         cargoStatusNode.innerHTML = "Cargo mass check passed";
+         IsLaunchReady = true;
+      };
+      
+      if(!IsLaunchReady){
+         launchStatusNode.innerHTML = "Shuttle not ready for launch";
+         launchStatusNode.style.color = "red";
+      }else{
+         launchStatusNode.innerHTML ="Shuttle is ready for Launch";
+         launchStatusNode.style.color = "green";
+      }
 
    });
 
@@ -65,7 +86,7 @@ window.addEventListener("load", function(){
 
 
 
-//todo 4: validate that all inputs have data
+
 
 //todo 5 : check fuel level and cargo mass and report launch status
 
