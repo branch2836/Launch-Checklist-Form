@@ -18,20 +18,45 @@
 window.addEventListener("load", function(){
    
    let formNode = document.getElementById("launchForm");
+   let launchStatusNode = document.getElementById("launchStatus");
    
    formNode.addEventListener("submit", function(event){
-      let pilotNode = document.querySelector("input[name=pilotName]");
-      let copilotNode = document.querySelector("input[name = copilotName]");
-      let fuelNode = document.querySelector("input[name = fuelLevel]");
-      let cargoNode = document.querySelector("input[name=cargoMass]");
+      event.preventDefault();
+
+      let pilotInput = document.querySelector("input[name=pilotName]");
+      let pilotName = pilotInput.value;
+      let pilotCheck = Number(pilotName); //should be NaN
+
+      let copilotInput = document.querySelector("input[name = copilotName]");
+      let copilotName = copilotInput.value;
+      let copilotCheck = Number(copilotName);
+
+      let fuelInput = document.querySelector("input[name = fuelLevel]");
+      let fuel = fuelInput.value;
+      let fuelCheck = Number(fuel);
+
+      let cargoInput = document.querySelector("input[name=cargoMass]");
+      let cargo = cargoInput.value;
+      let cargoCheck = Number(cargo);
 
 
-      if(pilotNode.value.length === 0 || copilotNode.value.length === 0 || fuelNode.value.length === 0 || cargoNode.value.length === 0 ){  
-         event.preventDefault();
+      // if(pilotNode.value.length === 0 || copilotNode.value.length === 0 || fuelNode.value.length === 0 || cargoNode.value.length === 0 ){  
+      //    event.preventDefault();
+      //    alert("All fields are required!");
+      // }
+
+      console.log(isNaN(fuelCheck));
+      if(!pilotName || !copilotName || !fuel || !cargo){
          alert("All fields are required!");
+      }else if(isNaN(pilotCheck) === false || isNaN(copilotCheck) === false || isNaN(fuelCheck) === true || isNaN(cargoCheck) === true){
+         alert("Make sure to enter valid information");
       }
+     
 
-      
+      // if((typeof pilotNode.value )!= "string"){
+      //    event.preventDefault();
+      //    alert("Please enter a name");
+      // }
 
    });
 
