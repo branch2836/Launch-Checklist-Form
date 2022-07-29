@@ -15,9 +15,36 @@
 //todo 2: setup submit handler for the form
 //todo 3: cancel submision using event.preventDefault
 //todo 4: validate that all inputs have data
+//todo 5 : check fuel level and cargo mass and report launch status
+//todo 6: make the list visioble
+//todo 7 : fetch planet data
+//todo 8: randomly select a planet
 
 window.addEventListener("load", function(){
    
+   let missionTargetNode = this.document.getElementById("missionTarget");
+
+   fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response){
+         response.json().then(function(json){
+            console.log(json);
+            const rndInt = Math.floor(Math.random() * json.length);
+            let html = `
+            <h2>Mission Destination</h2>
+            <ul>
+               <li>Name: ${json[rndInt].name}</li>
+               <li>Diameter: ${json[rndInt].diameter}</li>
+               <li>Star: ${json[rndInt].star}</li>
+               <li>Distance from Earth: ${json[rndInt].distance}</li>
+               <li>Number of Moons: ${json[rndInt].moons}</li>
+            </ul>
+               <img src="${json[rndInt].image}">
+            </img>
+            `;
+            missionTargetNode.innerHTML= html;
+
+         });
+   });
+
    let formNode = document.getElementById("launchForm");
    let launchStatusNode = document.getElementById("launchStatus");
    let itemStatusNode= document.getElementById("itemStatus");
@@ -48,7 +75,7 @@ window.addEventListener("load", function(){
       let cargoCheck = Number(cargo);
 
 
-      console.log(isNaN(fuelCheck));
+     
       if(!pilotName || !copilotName || !fuel || !cargo){
          alert("All fields are required!");
       }else if(isNaN(pilotCheck) === false || isNaN(copilotCheck) === false || isNaN(fuelCheck) === true || isNaN(cargoCheck) === true){
@@ -56,8 +83,8 @@ window.addEventListener("load", function(){
       }
      
       itemStatusNode.style.visibility = "visible";
-      pilotStatusNode.innerHTML = `${pilotName}`;
-      copilotStatusNode.innerHTML = `${copilotName}`;
+      pilotStatusNode.innerHTML = `Pilot ${pilotName} is ready for launch`;
+      copilotStatusNode.innerHTML = `CoPilot ${copilotName} is ready for launch`;
      
       if(fuel < 10000){
          fuelStatusNode.innerHTML = "Not Enough Fuel";
@@ -88,10 +115,4 @@ window.addEventListener("load", function(){
 
 
 
-//todo 5 : check fuel level and cargo mass and report launch status
 
-//todo 6: make the list visioble
-
-//todo 7 : fetch planet data
-
-//todo 8: randomly select a planet
