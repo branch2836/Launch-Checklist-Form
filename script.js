@@ -53,7 +53,8 @@ window.addEventListener("load", function(){
    let fuelStatusNode = document.getElementById("fuelStatus");
    let cargoStatusNode = document.getElementById("cargoStatus");
    let launchStstusNode = document.getElementById("launchStatius");
-   let IsLaunchReady = false;
+   let isFuelReady = false;
+   let isCargoReady = false;
    
    formNode.addEventListener("submit", function(event){
       event.preventDefault();
@@ -80,32 +81,37 @@ window.addEventListener("load", function(){
          alert("All fields are required!");
       }else if(isNaN(pilotCheck) === false || isNaN(copilotCheck) === false || isNaN(fuelCheck) === true || isNaN(cargoCheck) === true){
          alert("Make sure to enter valid information");
-      }
-     
-      itemStatusNode.style.visibility = "visible";
-      pilotStatusNode.innerHTML = `Pilot ${pilotName} is ready for launch`;
-      copilotStatusNode.innerHTML = `CoPilot ${copilotName} is ready for launch`;
-     
-      if(fuel < 10000){
-         fuelStatusNode.innerHTML = "Not Enough Fuel";
-         IsLaunchReady = false;
-      }else if (cargo > 10000){
-         cargoStatusNode.innerHTML = "Too much cargo mass";
-         IsLaunchReady = false;
       }else{
-         fuelStatusNode.innerHTML = "Fuel level check passed";
-         cargoStatusNode.innerHTML = "Cargo mass check passed";
-         IsLaunchReady = true;
-      };
-      
-      if(!IsLaunchReady){
-         launchStatusNode.innerHTML = "Shuttle not ready for launch";
-         launchStatusNode.style.color = "red";
-      }else{
-         launchStatusNode.innerHTML ="Shuttle is ready for Launch";
-         launchStatusNode.style.color = "green";
-      }
 
+         itemStatusNode.style.visibility = "visible";
+         pilotStatusNode.innerHTML = `Pilot ${pilotName} is ready for launch`;
+         copilotStatusNode.innerHTML = `CoPilot ${copilotName} is ready for launch`;
+         
+         
+         if(fuel < 10000){
+            fuelStatusNode.innerHTML = "Not Enough Fuel";
+            isFuelReady = false;
+         } else{
+            fuelStatusNode.innerHTML = "Fuel level check passed";
+            isFuelReady = true;
+         }
+            
+         if (cargo > 10000){
+            cargoStatusNode.innerHTML = "Too much cargo mass";
+            isCargoReady = false;
+         }else{
+            cargoStatusNode.innerHTML = "Cargo mass check passed";
+            isCargoReady = true;
+         }      
+         
+         if(!isFuelReady || !isCargoReady){
+            launchStatusNode.innerHTML = "Shuttle not ready for launch";
+            launchStatusNode.style.color = "red";
+         }else{
+            launchStatusNode.innerHTML ="Shuttle is ready for Launch";
+            launchStatusNode.style.color = "green";
+         }
+   }
    });
 
 });
